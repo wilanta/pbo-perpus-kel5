@@ -31,6 +31,10 @@ public class Peminjaman {
     }
 
     public void prosesPeminjaman() {
+        if (!"Menunggu Diproses".equals(this.status)) {
+            System.out.println("Peminjaman gagal! Status saat ini: " + this.status);
+            return;
+        }
         if (!buku.cekKetersediaan()) {
             System.out.println("Peminjaman gagal! Buku '" + buku.getJudul() + "' tidak tersedia.");
             this.status = "Gagal";
@@ -43,6 +47,11 @@ public class Peminjaman {
     }
 
     public void prosesPengembalian() {
+        if (!"Dipinjam".equals(this.status)) {
+            System.out.println("Pengembalian gagal! Buku ini tidak sedang dipinjam (Status: " + this.status + ").");
+            return;
+        }
+        
         this.tanggalPengembalianAktual = LocalDate.now();
         boolean terlambat = cekKeterlambatanPengembalian();
 
